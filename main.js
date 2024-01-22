@@ -42,9 +42,18 @@ image.src = './images/Pellet Town.png';
 const foregroundImage = new Image();
 foregroundImage.src = './images/foregroundImage.png'
 
-// Import and render Player
-const playerImage = new Image();
-playerImage.src = './images/playerDown.png'
+// Import player movement
+const playerUp = new Image();
+playerUp.src = './images/playerUp.png'
+
+const playerLeft = new Image();
+playerLeft.src = './images/playerLeft.png'
+
+const playerDown = new Image();
+playerDown.src = './images/playerDown.png'
+
+const playerRight = new Image();
+playerRight.src = './images/playerRight.png'
 
 // Setting the player image position
 const player = new Sprite({
@@ -52,9 +61,15 @@ const player = new Sprite({
         x: canvas.width / 2 - (192 / 4 / 2), 
         y: canvas.height / 2 - 68 / 2
     },
-    image: playerImage,
+    image: playerDown,
     frames: {
         max: 4
+    },
+    sprites: {
+        up: playerUp,
+        left: playerLeft,
+        down: playerDown,
+        right: playerRight
     }
 })
 
@@ -121,7 +136,10 @@ function animate() {
     
     // Player movement by moving the bacground
     let moving = true;
+    player.moving = false;
     if (keys.w.pressed && lastKey === 'w') {
+        player.moving = true;
+        player.image = player.sprites.up;
         for ( let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if ( 
@@ -144,6 +162,8 @@ function animate() {
         });
     }
     else if (keys.a.pressed && lastKey === 'a') {
+        player.moving = true;
+        player.image = player.sprites.left;
         for ( let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if ( 
@@ -166,6 +186,8 @@ function animate() {
         });
     }
     else if (keys.s.pressed && lastKey === 's') {
+        player.moving = true;
+        player.image = player.sprites.down;
         for ( let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if ( 
@@ -187,6 +209,8 @@ function animate() {
         });
     }
     else if (keys.d.pressed && lastKey === 'd') {
+        player.moving = true;
+        player.image = player.sprites.right;
         for ( let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
             if ( 

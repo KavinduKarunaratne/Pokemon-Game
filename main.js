@@ -335,7 +335,7 @@ const battleBackground = new Sprite({
 });
 
 const draggleImage = new Image();
-draggleImage.src = './images/draggleSprite.png'
+draggleImage.src = './images/draggleSprite.png';
 const draggle = new Sprite({
     position: {
         x: 800,
@@ -349,9 +349,25 @@ const draggle = new Sprite({
     animate: true
 });
 
+const embyImage = new Image();
+embyImage.src = './images/embySprite.png';
+const emby = new Sprite({
+    position: {
+        x: 280,
+        y: 325
+    },
+    image: embyImage,
+    frames: {
+        max: 4,
+        hold: 30
+    },
+    animate: true
+});
+
 function animateBattle() {
     window.requestAnimationFrame(animateBattle);
     battleBackground.draw();
+    emby.draw();
     draggle.draw();
 }
 

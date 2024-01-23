@@ -57,7 +57,6 @@ battleZonesMap.forEach((row, i) => {
     })
 });
 
-console.log(battleZones);
 
 // Import and render map
 const image = new Image();
@@ -143,9 +142,13 @@ function rectangularCollision({rectangle1, rectangle2}) {
     )
 }
 
+const battle = {
+    intiated: false
+}
+
 // Animation loop
 function animate() {
-    window.requestAnimationFrame(animate);
+    const animationID = window.requestAnimationFrame(animate);
     // Background Drawing
     background.draw()
     // Collisions Drawing
@@ -162,7 +165,14 @@ function animate() {
     player.draw();
     // Foreground Drawing
     foreground.draw();
+
+    console.log(animationID);
+
+    let moving = true;
+    player.moving = false;
     
+    if (battle.intiated) return
+    // Battle activation
     // Player movement by moving the bacground
     if (keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed) {
         for ( let i = 0; i < battleZones.length; i++) {
@@ -183,13 +193,30 @@ function animate() {
                 Math.random() < 0.01
             ) {
                 console.log("battleZone");
+                // Deactivate current animation loop
+                window.cancelAnimationFrame(animationID);
+                battle.intiated = true;
+                gsap.to('#overlappingDiv', {
+                    opacity: 1,
+                    repeat: 3,
+                    yoyo: true,
+                    duration: 0.4,
+                    onComplete() {
+                        gsap.to('#overlappingDiv', {
+                            opacity: 1,
+                            duration: 0.4
+                        })
+                        // Activate a new animation loop
+                        animateBattle();
+                        
+                    }
+                })
                 break
             }
         }
     }
 
-    let moving = true;
-    player.moving = false;
+    
     if (keys.w.pressed && lastKey === 'w') {
         player.moving = true;
         player.image = player.sprites.up;
@@ -289,6 +316,11 @@ function animate() {
 }
 animate();
 
+function animateBattle() {
+    window.requestAnimationFrame(animateBattle);
+    console.log('animate battle')
+}
+
 let lastKey = '';
 
 // Listening for keydowns
@@ -330,7 +362,3 @@ window.addEventListener('keyup', (e) => {
             break
     }
 })
-
-
-// console.log(collisions);
-// console.log(image);

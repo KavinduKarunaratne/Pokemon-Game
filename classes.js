@@ -61,6 +61,16 @@ class Sprite {
         }
     }
 
+    faint() {
+        document.querySelector('#dialogueBox').innerHTML = this.name + ' fainted!';
+        gsap.to(this.position, {
+            y: this.position.y + 20,
+        });
+        gsap.to(this, {
+            opacity: 0
+        })
+    }
+
     attack({attack, recipient, renderedSprites}) {
 
         document.querySelector('#dialogueBox').style.display = 'block'
@@ -69,7 +79,7 @@ class Sprite {
         let healthBar = '#enemyHealthBar'
         if (this.isEnemy) healthBar = '#playerHealthBar'
 
-        this.health -= attack.damage
+        recipient.health -= attack.damage
 
         let rotation = 1;
         if (this.isEnemy) rotation = -2.2;
@@ -100,7 +110,7 @@ class Sprite {
                     onComplete: () => {
                         // Enemy gets hit
                         gsap.to(healthBar, {
-                            width: this.health - attack.damage + '%'
+                            width: recipient.health + '%'
                         })
                         gsap.to(recipient.position, {
                             x: recipient.position.x + 10,
@@ -136,7 +146,7 @@ class Sprite {
                     onComplete: () => {
                         // Enemy gets hit
                         gsap.to(healthBar, {
-                            width: this.health - attack.damage + '%'
+                            width: recipient.health + '%'
                         })
                         gsap.to(recipient.position, {
                             x: recipient.position.x + 10,

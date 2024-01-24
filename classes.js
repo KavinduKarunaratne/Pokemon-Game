@@ -11,7 +11,8 @@ class Sprite {
         animate = false,
         isEnemy = false,
         rotation = 0,
-        name
+        name,
+        attacks
     }) {
         this.position = position;
         this.image = image;
@@ -27,6 +28,7 @@ class Sprite {
         this.isEnemy = isEnemy
         this.rotation = rotation
         this.name = name
+        this.attacks = attacks
     }
 
     draw() {
